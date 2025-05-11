@@ -8,18 +8,15 @@ const router = require("./routes");
 const app = express();
 
 
-const allowedOrigins = [process.env.FRONTEND_URL];
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
 
+// Optional but good: Handle preflight for all routes
+app.options("*", cors());
 
 app.options("*", cors({
   origin: allowedOrigins,
